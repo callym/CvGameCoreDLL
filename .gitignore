@@ -1,0 +1,13 @@
+CvGameCoreDLL/Release/
+CvGameCoreDLL/Release-fast/
+CvGameCoreDLL/Assert/
+CvGameCoreDLL/Assert-fast/
+CvGameCoreDLL/Debug/
+CvGameCoreDLL/Profile/
+CvGameCoreDLL/Output/
+
+*.dll
+*.opensdf
+
+compile/
+/target

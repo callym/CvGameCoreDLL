@@ -182,6 +182,8 @@ __forceinline float MaxFloat() {
 void startProfilingDLL();
 void stopProfilingDLL();
 
+#include <bindings.h>
+
 //
 // Boost Python
 //

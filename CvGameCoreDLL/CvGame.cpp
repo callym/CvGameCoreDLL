@@ -1,4 +1,5 @@
 // game.cpp
+#include <bindings.h>
 
 #include "CvGameCoreDLL.h"
 #include "CvGameCoreUtils.h"
@@ -79,6 +80,8 @@ CvGame::~CvGame() {
 }
 
 void CvGame::init(HandicapTypes eHandicap) {
+  test();
+
   bool bValid;
   int iStartTurn;
   int iEstimateEndTurn;

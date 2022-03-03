@@ -11,3 +11,5 @@ CvGameCoreDLL/Output/
 
 compile/
 /target
+
+dll/bindings.h

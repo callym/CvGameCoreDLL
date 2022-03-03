@@ -1,0 +1,14 @@
+[package]
+name = "xtask"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+color-eyre = "0.6"
+duct = "0.13"
+eyre = "0.6"
+owo-colors = "3.2"
+ron = "0.7"
+serde = "1.0"

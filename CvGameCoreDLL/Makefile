@@ -22,7 +22,7 @@
 ##     in Makefile.settings and it will be defined for you without the risk of committing active debug output to other people
 ##
 ##     You can write whatever you want after -D and it will work like you write #DEFINE in C++
-## 
+##
 
 
 #### Paths ####
@@ -182,7 +182,7 @@ BOOST_LIB_PATH=$(CIV4_LIB_INSTALL_PATH)/
 !ENDIF
 !ENDIF
 
-PROJECT_INCS=/I"$(BOOST_LIB_PATH)Boost-1.32.0/include" /I"$(BOOST_LIB_PATH)Python24/include"
+PROJECT_INCS=/I"$(BOOST_LIB_PATH)Boost-1.32.0/include" /I"$(BOOST_LIB_PATH)Python24/include" /I"../dll"
 PROJECT_LIBS=/LIBPATH:"$(BOOST_LIB_PATH)Python24/libs" /LIBPATH:"$(BOOST_LIB_PATH)boost-1.32.0/libs/" boost_python-vc71-mt-1_32.lib
 
 INCS = $(PROJECT_INCS) $(GLOBAL_INCS)
@@ -241,7 +241,7 @@ clean:
 $(Target_BIN): $(Target_BIN_TEMP)
 	-COPY "$(Target_BIN_TEMP)" "$(Target_BIN)"
 
-		
+
 build: $(Target_BIN)
 !IFDEF YOURMOD
 	-COPY "$(Target_BIN)" "$(YOURMOD)\Assets\."
@@ -282,7 +282,7 @@ $(Target_BIN_TEMP): $(OBJS) $(Target_RESOURCE)
 	@ECHO.>"$*.obj.@"
     @$(CPP) /nologo $(CFLAGS) $(PRECOMPILE_CFLAGS1)$(PRECOMPILE_CFLAGS2) $(INCS) /Fo$*.obj /c $<
 	@DEL "$*.obj.@"
-	
+
 {$(SOURCE_DIR)\$(SUBDIR1)}.cpp{$(TEMP_TARGET_FILES)\$(SUBDIR1)}.obj:
 	@ECHO.>"$*.obj.@"
     @$(CPP) /nologo $(CFLAGS) $(PRECOMPILE_CFLAGS1)$(SUBDIRPATH1)$(PRECOMPILE_CFLAGS2) $(INCS) /Fo$*.obj /c $<
@@ -302,7 +302,7 @@ $(Target_BIN_TEMP): $(OBJS) $(Target_RESOURCE)
 	@ECHO.>"$*.obj.@"
     @$(CPP) /nologo $(CFLAGS) $(PRECOMPILE_CFLAGS1)$(SUBDIRPATH4)$(PRECOMPILE_CFLAGS2) $(INCS) /Fo$*.obj /c $<
 	@DEL "$*.obj.@"
-	
+
 {$(SOURCE_DIR)\$(SUBDIR5)}.cpp{$(TEMP_TARGET_FILES)\$(SUBDIR5)}.obj:
 	@ECHO.>"$*.obj.@"
     @$(CPP) /nologo $(CFLAGS) $(PRECOMPILE_CFLAGS1)$(SUBDIRPATH5)$(PRECOMPILE_CFLAGS2) $(INCS) /Fo$*.obj /c $<
@@ -322,7 +322,7 @@ $(Target_BIN_TEMP): $(OBJS) $(Target_RESOURCE)
 	@ECHO.>"$*.obj.@"
     @$(CPP) /nologo $(CFLAGS) $(PRECOMPILE_CFLAGS1)$(SUBDIRPATH8)$(PRECOMPILE_CFLAGS2) $(INCS) /Fo$*.obj /c $<
 	@DEL "$*.obj.@"
-	
+
 {$(SOURCE_DIR)\$(SUBDIR9)}.cpp{$(TEMP_TARGET_FILES)\$(SUBDIR9)}.obj:
 	@ECHO.>"$*.obj.@"
     @$(CPP) /nologo $(CFLAGS) $(PRECOMPILE_CFLAGS1)$(SUBDIRPATH9)$(PRECOMPILE_CFLAGS2) $(INCS) /Fo$*.obj /c $<
@@ -357,7 +357,7 @@ $(Target_BIN_TEMP): $(OBJS) $(Target_RESOURCE)
 	@ECHO.>"$*.obj.@"
     @$(CPP) /nologo $(CFLAGS) $(PRECOMPILE_CFLAGS1)$(SUBDIRPATH15)$(PRECOMPILE_CFLAGS2) $(INCS) /Fo$*.obj /c $<
 	@DEL "$*.obj.@"
-	
+
 
 $(Target_PCH) $(TEMP_TARGET_FILES)\_precompile.obj: $(PRECOMPILE_DEPENDENCIES)
 	@ECHO.>"$(Target_PCH).@"
@@ -381,4 +381,3 @@ $(TEMP_TARGET_FILES)\$(BLACKLIST).obj: $(BLACKLIST).cpp
 	@DEL "$*.obj.@"
 
 !ENDIF
-

@@ -1,0 +1,4 @@
+{
+    "rust-analyzer.checkOnSave.allTargets": false,
+    "rust-analyzer.cargo.target": "i686-pc-windows-msvc"
+}

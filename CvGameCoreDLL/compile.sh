@@ -149,7 +149,7 @@ if should_compile "_precompile.cpp" $ci "CvGameCoreDLL.pch"; then
 	cl "_precompile.cpp" "$@" \
 		"/I$VCTOOLKIT/include" "/I$PSDK/Include" \
 		"/I$PSDK/Include/mfc" "/I$BOOST/include" \
-		"/I$PYTHON/include" "/YcCvGameCoreDLL.h" \
+		"/I$PYTHON/include" "/I../dll" "/I../compat" "/YcCvGameCoreDLL.h" \
 		"/Fo$TARGET/_precompile.obj"
 fi
 
@@ -164,7 +164,7 @@ if $PARALLEL; then
 				cl "$COMPILEFILE" "$@" \
 					"/I$VCTOOLKIT/include" "/I$PSDK/Include" \
 					"/I$PSDK/Include/mfc" "/I$BOOST/include" \
-					"/I$PYTHON/include" "/Fo$TARGET/${COMPILEFILE%.*}.obj"
+					"/I$PYTHON/include" "/I../dll" "/I../compat" "/Fo$TARGET/${COMPILEFILE%.*}.obj"
 			fi
 			)&
 			PIDS="$PIDS $!"
@@ -193,7 +193,7 @@ else
 				cl "$COMPILEFILE" "$@" \
 					"/I$VCTOOLKIT/include" "/I$PSDK/Include" \
 					"/I$PSDK/Include/mfc" "/I$BOOST/include" \
-					"/I$PYTHON/include" "/Fo$TARGET/${COMPILEFILE%.*}.obj"
+					"/I$PYTHON/include" "/I../dll" "/I../compat" "/Fo$TARGET/${COMPILEFILE%.*}.obj"
 			fi
 		fi
 	done
@@ -219,8 +219,15 @@ else
 		set -- " " "$PSDK/Lib/AMD64/msvcprtd.lib"
 	fi
 
+  RUSTLIBPATH=
+  if test "$TARGET" = "Release"; then
+    RUSTLIBPATH="/LIBPATH:../target/i686-pc-windows-msvc/release/"
+  elif test "$TARGET" = "Debug"; then
+    RUSTLIBPATH="/LIBPATH:../target/i686-pc-windows-msvc/debug/"
+  fi
+
 	link $FLAGS "/LIBPATH:$PSDK/Lib/" "/LIBPATH:$BOOST/libs/" "/LIBPATH:$VCTOOLKIT/lib/" \
-		"/LIBPATH:$PYTHON/libs/" "/LIBPATH:$ASSETSDIR/" \
+		"/LIBPATH:$PYTHON/libs/" "/LIBPATH:$ASSETSDIR/" $RUSTLIBPATH "dll.lib"\
 		"boost_python-vc71-mt-1_32.lib" "python24.lib" "winmm.lib" "user32.lib" \
 		"msvcprt.lib" "msvcrt.lib" "OLDNAMES.lib" \
 		"/out:$OUTPUT""$@"

@@ -1,0 +1,7 @@
+// The compiler that Civ4 uses is too old to have `cstdint`, but `cbindgen` needs it!
+// These typedefs seem to work fine, and I think should be okay because we know this'll be linked to an x86 DLL?
+
+typedef unsigned char uint8_t;
+typedef unsigned short uint16_t;
+typedef unsigned long uint32_t;
+typedef unsigned long long uint64_t;

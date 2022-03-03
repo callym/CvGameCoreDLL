@@ -118,7 +118,8 @@ DWORD DisplayAssertDialog() {
 
 } // end anonymous namespace
 
-bool FAssertDlg(const char *szExpr, const char *szMsg, const char *szFile, unsigned int line, bool &bIgnoreAlways) {
+extern "C" bool FAssertDlg(const char *szExpr, const char *szMsg, const char *szFile, unsigned int line,
+                           bool &bIgnoreAlways) {
   //	FILL_CONTEXT( g_AssertInfo.context );
 
   g_AssertInfo.szExpression = szExpr;

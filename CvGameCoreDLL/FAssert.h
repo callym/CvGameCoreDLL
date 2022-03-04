@@ -14,7 +14,7 @@
 
 #ifdef WIN32
 
-extern "C" DllExport bool FAssertDlg(const char *, const char *, const char *, unsigned int, bool &);
+extern "C" bool FAssertDlg(const char *, const char *, const char *, unsigned int, bool &);
 
 #define FAssert(expr)                                                                                                  \
   {                                                                                                                    \

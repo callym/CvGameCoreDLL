@@ -13,3 +13,5 @@ compile/
 /target
 
 dll/bindings.h
+
+ghidra/

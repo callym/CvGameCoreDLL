@@ -3,3 +3,6 @@ xtask = "run --package xtask --"
 
 [target.i686-pc-windows-msvc]
 rustflags = ["-C", "panic=abort"]
+
+[unstable]
+features = ["host_dep"]

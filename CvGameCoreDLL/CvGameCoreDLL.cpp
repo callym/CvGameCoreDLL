@@ -67,6 +67,7 @@ unsigned int memSize(void *a) {
 BOOL APIENTRY DllMain(HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserved) {
   switch (ul_reason_for_call) {
   case DLL_PROCESS_ATTACH: {
+    CreateConsole();
     // The DLL is being loaded into the virtual address space of the current process as a result of the process starting
     // up
     OutputDebugString("DLL_PROCESS_ATTACH\n");
@@ -107,4 +108,38 @@ void stopProfilingDLL() {
   if (GC.isDLLProfilerEnabled()) {
     gDLL->ProfilerEnd();
   }
+}
+
+// https://stackoverflow.com/questions/15543571/allocconsole-not-displaying-cout#15547699
+void CreateConsole() {
+  FreeConsole();
+  if (!AllocConsole()) {
+    FAssertMsg(false, "AllocConsole failed");
+    // Add some error handling here.
+    // You can call GetLastError() to get more info about the error.
+    return;
+  }
+
+  // std::cout, std::clog, std::cerr, std::cin
+  FILE *fDummy;
+  freopen("CONOUT$", "w", stdout);
+  freopen("CONOUT$", "w", stderr);
+  freopen("CONOUT$", "w", stdin);
+  std::cout.clear();
+  std::clog.clear();
+  std::cerr.clear();
+  std::cin.clear();
+
+  // std::wcout, std::wclog, std::wcerr, std::wcin
+  HANDLE hConOut = CreateFile(_T("CONOUT$"), GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL,
+                              OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+  HANDLE hConIn = CreateFile(_T("CONIN$"), GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL,
+                             OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+  SetStdHandle(STD_OUTPUT_HANDLE, hConOut);
+  SetStdHandle(STD_ERROR_HANDLE, hConOut);
+  SetStdHandle(STD_INPUT_HANDLE, hConIn);
+  std::wcout.clear();
+  std::wclog.clear();
+  std::wcerr.clear();
+  std::wcin.clear();
 }

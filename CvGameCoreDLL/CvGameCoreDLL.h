@@ -27,6 +27,7 @@
 #include <assert.h>
 #include <map>
 #include <hash_map>
+#include <iostream>
 
 #define DllExport __declspec(dllexport)
 
@@ -181,6 +182,8 @@ __forceinline float MaxFloat() {
 
 void startProfilingDLL();
 void stopProfilingDLL();
+
+void CreateConsole();
 
 #include <bindings.h>
 

@@ -20,6 +20,7 @@ pub fn panic(info: &::core::panic::PanicInfo) -> ! {
   let file = info.location().map(|loc| loc.file()).unwrap_or("");
   let line = info.location().map(|loc| loc.line()).unwrap_or(0);
 
+  println!("{message}, {file}:{line}");
   crate::fassert::f_assert_dlg(expr, &message, file, line);
 
   core::intrinsics::abort();

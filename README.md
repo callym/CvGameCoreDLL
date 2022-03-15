@@ -22,3 +22,11 @@
 If you want to run Civ4 windowed on a high-res display, you can use [gamescope](https://github.com/Plagman/gamescope) - I've been running it with my Steam command set to:
 
 `INTEL_DEBUG=norbc VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/intel_icd.i686.json:/usr/share/vulkan/icd.d/intel_icd.x86_64.json gamescope -w 1440 -h 960 -W 2880 -H 1920 -n -r 60 %command%`
+
+## Symbols
+
+To get a list of the (mostly mangled) symbols - you can run this:
+
+`objdump -x 'CvGameCoreDLL/Output/CvGameCoreDLL.dll' > dump.txt`
+
+Then "just" `ctrl+f` to get the actual function name you're looking for.

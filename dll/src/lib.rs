@@ -36,7 +36,8 @@ pub extern "C" fn test() {
   println!();
 
   println!("{:?}", dbg!(init_core.get_type()));
-  println!("{:?}", dbg!(init_core.get_type()));
+
+  println!("{}", init_core.get_map_script_name());
 }
 
 #[no_mangle]

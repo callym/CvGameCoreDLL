@@ -13,6 +13,7 @@ crate_type = ["staticlib"]
 cstr_core = "0.2"
 libc = { version = "0.2", default-features = false }
 num_enum = { version = "0.5", default-features = false }
+widestring = { version = "0.5", default-features = false, features = ["alloc"] }
 
 [build-dependencies]
 cbindgen = "0.20"

@@ -13,6 +13,12 @@ extern "thiscall" {
 
   #[link_name = "?getInitCore@CvGlobals@@QAEAAVCvInitCore@@XZ"]
   fn CvGlobals_getInitCore(cvGlobals: NonNull<CvGlobals>) -> NonNull<CvInitCore>;
+
+  #[link_name = "?getLoadedInitCore@CvGlobals@@QAEAAVCvInitCore@@XZ"]
+  fn CvGlobals_getLoadedInitCore(cvGlobals: NonNull<CvGlobals>) -> NonNull<CvInitCore>;
+
+  #[link_name = "?getIniInitCore@CvGlobals@@QAEAAVCvInitCore@@XZ"]
+  fn CvGlobals_getIniInitCore(cvGlobals: NonNull<CvGlobals>) -> NonNull<CvInitCore>;
 }
 
 pub struct Globals {
@@ -28,5 +34,13 @@ impl Globals {
 
   pub fn init_core(&self) -> InitCore {
     unsafe { InitCore::new(CvGlobals_getInitCore(self.cpp)) }
+  }
+
+  pub fn loaded_init_core(&self) -> InitCore {
+    unsafe { InitCore::new(CvGlobals_getLoadedInitCore(self.cpp)) }
+  }
+
+  pub fn ini_init_core(&self) -> InitCore {
+    unsafe { InitCore::new(CvGlobals_getIniInitCore(self.cpp)) }
   }
 }

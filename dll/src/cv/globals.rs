@@ -19,6 +19,9 @@ extern "thiscall" {
 
   #[link_name = "?getIniInitCore@CvGlobals@@QAEAAVCvInitCore@@XZ"]
   fn CvGlobals_getIniInitCore(cvGlobals: NonNull<CvGlobals>) -> NonNull<CvInitCore>;
+
+  #[link_name = "?getMaxCivPlayers@CvGlobals@@QBEHXZ"]
+  fn CvGlobals_getMaxCivPlayers(cvGlobals: NonNull<CvGlobals>) -> libc::c_int;
 }
 
 pub struct Globals {
@@ -42,5 +45,9 @@ impl Globals {
 
   pub fn ini_init_core(&self) -> InitCore {
     unsafe { InitCore::new(CvGlobals_getIniInitCore(self.cpp)) }
+  }
+
+  pub fn max_players(&self) -> i32 {
+    unsafe { CvGlobals_getMaxCivPlayers(self.cpp) }
   }
 }

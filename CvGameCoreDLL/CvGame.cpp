@@ -80,8 +80,6 @@ CvGame::~CvGame() {
 }
 
 void CvGame::init(HandicapTypes eHandicap) {
-  test();
-
   bool bValid;
   int iStartTurn;
   int iEstimateEndTurn;
@@ -106,66 +104,7 @@ void CvGame::init(HandicapTypes eHandicap) {
   //--------------------------------
   // Init other game data
 
-  // Turn off all MP options if it's a single player game
-  if (GC.getInitCore().getType() == GAME_SP_NEW || GC.getInitCore().getType() == GAME_SP_SCENARIO) {
-    for (iI = 0; iI < NUM_MPOPTION_TYPES; ++iI) {
-      setMPOption((MultiplayerOptionTypes)iI, false);
-    }
-  }
-
-  // If this is a hot seat game, simultaneous turns is always off
-  if (isHotSeat() || isPbem()) {
-    setMPOption(MPOPTION_SIMULTANEOUS_TURNS, false);
-  }
-  // If we didn't set a time in the Pitboss, turn timer off
-  if (isPitboss() && getPitbossTurnTime() == 0) {
-    setMPOption(MPOPTION_TURN_TIMER, false);
-  }
-
-  if (isMPOption(MPOPTION_SHUFFLE_TEAMS)) {
-    int aiTeams[MAX_CIV_PLAYERS];
-
-    int iNumPlayers = 0;
-    for (int i = 0; i < MAX_CIV_PLAYERS; i++) {
-      if (GC.getInitCore().getSlotStatus((PlayerTypes)i) == SS_TAKEN) {
-        aiTeams[iNumPlayers] = GC.getInitCore().getTeam((PlayerTypes)i);
-        ++iNumPlayers;
-      }
-    }
-
-    for (int i = 0; i < iNumPlayers; i++) {
-      int j = (getSorenRand().get(iNumPlayers - i, NULL) + i);
-
-      if (i != j) {
-        int iTemp = aiTeams[i];
-        aiTeams[i] = aiTeams[j];
-        aiTeams[j] = iTemp;
-      }
-    }
-
-    iNumPlayers = 0;
-    for (int i = 0; i < MAX_CIV_PLAYERS; i++) {
-      if (GC.getInitCore().getSlotStatus((PlayerTypes)i) == SS_TAKEN) {
-        GC.getInitCore().setTeam((PlayerTypes)i, (TeamTypes)aiTeams[iNumPlayers]);
-        ++iNumPlayers;
-      }
-    }
-  }
-
-  if (isOption(GAMEOPTION_LOCK_MODS)) {
-    if (isGameMultiPlayer()) {
-      setOption(GAMEOPTION_LOCK_MODS, false);
-    } else {
-      static const int iPasswordSize = 8;
-      char szRandomPassword[iPasswordSize];
-      for (int i = 0; i < iPasswordSize - 1; i++) {
-        szRandomPassword[i] = getSorenRandNum(128, NULL);
-      }
-      szRandomPassword[iPasswordSize - 1] = 0;
-
-      GC.getInitCore().setAdminPassword(szRandomPassword);
-    }
-  }
+  rust__game__init(this);
 
   if (getGameTurn() == 0) {
     iStartTurn = 0;
@@ -5719,7 +5658,7 @@ int CvGame::getMapRandNum(int iNum, const char *pszLog) {
   return m_mapRand.get(iNum, pszLog);
 }
 
-CvRandom &CvGame::getSorenRand() {
+DllExport CvRandom &CvGame::getSorenRand() {
   return m_sorenRand;
 }
 

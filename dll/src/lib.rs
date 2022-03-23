@@ -10,37 +10,18 @@
   nonnull_slice_from_raw_parts,
   panic_info_message,
   slice_ptr_get,
-  abi_thiscall
+  abi_thiscall,
+  maybe_uninit_as_bytes
 )]
 
 extern crate alloc;
 
 #[macro_use]
-mod macros;
+pub mod macros;
 
-mod cv;
+pub mod cv;
 
-mod fassert;
-mod panic;
-mod print;
-mod system_alloc;
-
-#[no_mangle]
-pub extern "C" fn test() {
-  let globals = cv::globals::Globals::new();
-  let init_core = globals.init_core();
-
-  print!("Hello, ");
-  print!("World!");
-
-  println!();
-
-  println!("{:?}", dbg!(init_core.get_type()));
-
-  println!("{}", init_core.get_map_script_name());
-}
-
-#[no_mangle]
-pub extern "C" fn add(x: u32, y: u32) {
-  assert_eq!(69, 420);
-}
+pub mod fassert;
+pub mod panic;
+pub mod print;
+pub mod system_alloc;

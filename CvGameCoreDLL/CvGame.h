@@ -433,7 +433,7 @@ public:
   CvRandom &getMapRand(); // Exposed to Python
   int getMapRandNum(int iNum, const char *pszLog);
 
-  CvRandom &getSorenRand(); // Exposed to Python
+  DllExport CvRandom &getSorenRand(); // Exposed to Python
   int getSorenRandNum(int iNum, const char *pszLog);
 
   DllExport int calculateSyncChecksum();    // Exposed to Python

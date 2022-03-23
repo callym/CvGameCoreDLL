@@ -106,21 +106,6 @@ void CvGame::init(HandicapTypes eHandicap) {
 
   rust__game__init(this);
 
-  if (getGameTurn() == 0) {
-    iStartTurn = 0;
-
-    for (iI = 0; iI < GC.getGameSpeedInfo(getGameSpeedType()).getNumTurnIncrements(); iI++) {
-      iStartTurn += GC.getGameSpeedInfo(getGameSpeedType()).getGameTurnInfo(iI).iNumGameTurnsPerIncrement;
-    }
-
-    iStartTurn *= GC.getEraInfo(getStartEra()).getStartPercent();
-    iStartTurn /= 100;
-
-    setGameTurn(iStartTurn);
-  }
-
-  setStartTurn(getGameTurn());
-
   if (getMaxTurns() == 0) {
     iEstimateEndTurn = 0;
 

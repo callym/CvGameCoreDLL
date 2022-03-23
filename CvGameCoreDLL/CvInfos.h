@@ -2420,9 +2420,9 @@ public:
   int getInflationOffset() const;            // Exposed to Python
   int getInflationPercent() const;           // Exposed to Python
   int getVictoryDelayPercent() const;        // Exposed to Python
-  int getNumTurnIncrements() const;          // Exposed to Python
+  DllExport int getNumTurnIncrements() const;          // Exposed to Python
 
-  GameTurnInfo &getGameTurnInfo(int iIndex) const; // Exposed to Python
+  DllExport GameTurnInfo &getGameTurnInfo(int iIndex) const; // Exposed to Python
   void allocateGameTurnInfos(const int iSize);
 
   bool read(CvXMLLoadUtility *pXML);
@@ -4857,7 +4857,7 @@ public:
   int getAdvancedStartPoints() const;             //	Exposed to Python
   int getStartingGold() const;                    //	Exposed to Python
   int getFreePopulation() const;                  //	Exposed to Python
-  int getStartPercent() const;                    //	Exposed to Python
+  DllExport int getStartPercent() const;                    //	Exposed to Python
   int getGrowthPercent() const;                   //	Exposed to Python
   int getTrainPercent() const;                    //	Exposed to Python
   int getConstructPercent() const;                //	Exposed to Python

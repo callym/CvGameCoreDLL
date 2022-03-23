@@ -1,8 +1,12 @@
+use crate::cv::{
+  enums::{EraTypes, GameSpeed},
+  infos::{
+    era_info::{CvEraInfo, EraInfo},
+    game_speed::{CvGameSpeedInfo, GameSpeedInfo},
+  },
+  init_core::{CvInitCore, InitCore},
+};
 use core::ptr::NonNull;
-
-use crate::cv::init_core::CvInitCore;
-
-use super::init_core::InitCore;
 
 /// cbindgen:ignore
 extern "thiscall" {
@@ -22,6 +26,18 @@ extern "thiscall" {
 
   #[link_name = "?getMaxCivPlayers@CvGlobals@@QBEHXZ"]
   fn CvGlobals_getMaxCivPlayers(cvGlobals: NonNull<CvGlobals>) -> libc::c_int;
+
+  #[link_name = "?getGameSpeedInfo@CvGlobals@@QAEAAVCvGameSpeedInfo@@W4GameSpeedTypes@@@Z"]
+  fn CvGlobals_getGameSpeedInfo(
+    cvGlobals: NonNull<CvGlobals>,
+    eEraNum: libc::c_int,
+  ) -> NonNull<CvGameSpeedInfo>;
+
+  #[link_name = "?getEraInfo@CvGlobals@@QAEAAVCvEraInfo@@W4EraTypes@@@Z"]
+  fn CvGlobals_getEraInfo(
+    cvGlobals: NonNull<CvGlobals>,
+    eGameSpeedNum: libc::c_int,
+  ) -> NonNull<CvEraInfo>;
 }
 
 pub struct Globals {
@@ -49,5 +65,13 @@ impl Globals {
 
   pub fn max_players(&self) -> i32 {
     unsafe { CvGlobals_getMaxCivPlayers(self.cpp) }
+  }
+
+  pub fn get_game_speed_info(&self, ty: GameSpeed) -> GameSpeedInfo {
+    unsafe { GameSpeedInfo::new(CvGlobals_getGameSpeedInfo(self.cpp, ty.into())) }
+  }
+
+  pub fn get_era_info(&self, ty: EraTypes) -> EraInfo {
+    unsafe { EraInfo::new(CvGlobals_getEraInfo(self.cpp, ty.into())) }
   }
 }

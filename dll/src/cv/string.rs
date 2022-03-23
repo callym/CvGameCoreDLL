@@ -59,6 +59,16 @@ impl WString {
     Self { cpp }
   }
 
+  pub fn from_const_wchar_t(ptr: *const libc::wchar_t) -> Self {
+    let mut cpp = MaybeUninit::zeroed();
+
+    unsafe { CvWString_new_wchar(cpp.as_mut_ptr(), ptr) };
+
+    let cpp = unsafe { cpp.assume_init() };
+
+    Self { cpp }
+  }
+
   pub fn from_u16(bytes: Vec<u16>) -> Self {
     // The C++ fn is `new CvWString(*wchar)`, which I thought would be
     // `CvWString(*wchar) -> CvWString`

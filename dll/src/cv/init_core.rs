@@ -1,16 +1,19 @@
-use crate::cv::string::{CvWString, WStr, WString};
+use crate::cv::{
+  enums::{
+    EraTypes,
+    GameMode,
+    GameOptionTypes,
+    GameSpeed,
+    GameType,
+    MultiplayerOptionTypes,
+    PlayerTypes,
+    SlotStatus,
+    TeamTypes,
+  },
+  string::{CvWString, WStr, WString},
+};
 use alloc::vec::Vec;
 use core::ptr::NonNull;
-
-use super::enums::{
-  GameMode,
-  GameOptionTypes,
-  GameType,
-  MultiplayerOptionTypes,
-  PlayerTypes,
-  SlotStatus,
-  TeamTypes,
-};
 
 /// cbindgen:ignore
 extern "thiscall" {
@@ -72,6 +75,15 @@ extern "thiscall" {
 
   #[link_name = "?setTeam@CvInitCore@@QAEXW4PlayerTypes@@W4TeamTypes@@@Z"]
   fn CvInitCore_setTeam(cvInitCore: NonNull<CvInitCore>, eID: libc::c_int, eTeam: libc::c_int);
+
+  #[link_name = "?getGameTurn@CvInitCore@@QBEHXZ"]
+  fn CvInitCore_getGameTurn(cvInitCore: NonNull<CvInitCore>) -> libc::c_int;
+
+  #[link_name = "?getGameSpeed@CvInitCore@@QBE?AW4GameSpeedTypes@@XZ"]
+  fn CvInitCore_getGameSpeed(cvInitCore: NonNull<CvInitCore>) -> libc::c_int;
+
+  #[link_name = "?getEra@CvInitCore@@QBE?AW4EraTypes@@XZ"]
+  fn CvInitCore_getEra(cvInitCore: NonNull<CvInitCore>) -> libc::c_int;
 }
 
 pub struct InitCore {
@@ -144,5 +156,17 @@ impl InitCore {
     unsafe {
       CvInitCore_setTeam(self.cpp, slot.into(), team.into());
     }
+  }
+
+  pub fn get_game_turn(&self) -> i32 {
+    unsafe { CvInitCore_getGameTurn(self.cpp) }
+  }
+
+  pub fn get_game_speed(&self) -> GameSpeed {
+    unsafe { CvInitCore_getGameSpeed(self.cpp).try_into().unwrap() }
+  }
+
+  pub fn get_era(&self) -> EraTypes {
+    unsafe { CvInitCore_getEra(self.cpp).try_into().unwrap() }
   }
 }

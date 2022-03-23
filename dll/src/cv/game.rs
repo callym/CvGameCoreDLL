@@ -1,4 +1,4 @@
-use super::{
+use crate::cv::{
   enums::{GameMode, GameOptionTypes, MultiplayerOptionTypes, SlotStatus},
   globals::Globals,
   init_core::InitCore,
@@ -14,6 +14,13 @@ extern "thiscall" {
 
   #[link_name = "?getSorenRand@CvGame@@QAEAAVCvRandom@@XZ"]
   fn CvGame_getSorenRand(cvGame: NonNull<CvGame>) -> NonNull<CvRandom>;
+
+  #[link_name = "?setGameTurn@CvGame@@QAEXH@Z"]
+  fn CvGame_setGameTurn(cvGame: NonNull<CvGame>, iNewValue: libc::c_int);
+
+  #[link_name = "?setStartTurn@CvGame@@QAEXH@Z"]
+  fn CvGame_setStartTurn(cvGame: NonNull<CvGame>, iNewValue: libc::c_int);
+
 }
 
 pub struct Game {
@@ -96,6 +103,30 @@ impl Game {
 
     init.set_admin_password(password);
   }
+
+  fn set_game_turn(&self, init: &InitCore) {
+    if init.get_game_turn() == 0 {
+      let game_speed_info = Globals::new().get_game_speed_info(init.get_game_speed());
+      let increments = game_speed_info.get_num_turn_increments();
+
+      let start_turn: i32 = (0..increments)
+        .into_iter()
+        .map(|i| game_speed_info.get_game_turn_info(i))
+        .map(|i| i.game_turns_per_increment)
+        .sum();
+
+      let start_turn = start_turn
+        * Globals::new()
+          .get_era_info(init.get_era())
+          .get_start_percent();
+
+      let start_turn = start_turn / 100;
+
+      unsafe { CvGame_setGameTurn(self.cpp, start_turn) };
+    }
+
+    unsafe { CvGame_setStartTurn(self.cpp, init.get_game_turn()) };
+  }
 }
 
 /// This is a Rust port of the logic from `void CvGame::init(HandicapTypes eHandicap)`
@@ -109,4 +140,5 @@ pub extern "C" fn rust__game__init(game: NonNull<CvGame>) {
   game.set_mp_options(&init_core);
   game.shuffle_teams(&init_core);
   game.lock_mods(&init_core);
+  game.set_game_turn(&init_core);
 }

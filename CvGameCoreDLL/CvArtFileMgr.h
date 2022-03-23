@@ -41,70 +41,77 @@ class CvArtInfoMovie;
 class CvArtInfoInterface;
 
 // Example usage: ART_INFO_DECL(Unit)
-#define ART_INFO_DECL(name) \
-public: \
-	friend class Cv##name##ArtInfoItem; \
-	DllExport CvArtInfo##name##* get##name##ArtInfo(const char *szArtDefineTag) const; \
-	DllExport int getNum##name##ArtInfos() { return (int)m_pa##name##ArtInfo.size(); } \
-	DllExport std::vector<CvArtInfo##name##*>& get##name##ArtInfo() { return m_pa##name##ArtInfo; } \
-	DllExport CvArtInfo##name##& get##name##ArtInfo(int i); \
-private: \
-	typedef std::map<const char* /* index */,CvArtInfo##name##* /*value */, ltstr> ArtInfo##name##MapType; \
-	ArtInfo##name##MapType* m_map##name##ArtInfos; \
-	std::vector<CvArtInfo##name##*> m_pa##name##ArtInfo; \
+#define ART_INFO_DECL(name)                                                                                            \
+public:                                                                                                                \
+  friend class Cv##name##ArtInfoItem;                                                                                  \
+  DllExport CvArtInfo##name##*get##name##ArtInfo(const char *szArtDefineTag) const;                                    \
+  DllExport int getNum##name##ArtInfos() {                                                                             \
+    return (int)m_pa##name##ArtInfo.size();                                                                            \
+  }                                                                                                                    \
+  DllExport std::vector<CvArtInfo##name##*> &get##name##ArtInfo() {                                                    \
+    return m_pa##name##ArtInfo;                                                                                        \
+  }                                                                                                                    \
+  DllExport CvArtInfo##name##&get##name##ArtInfo(int i);                                                               \
+                                                                                                                       \
+private:                                                                                                               \
+  typedef std::map<const char * /* index */, CvArtInfo##name##* /*value */, ltstr> ArtInfo##name##MapType;             \
+  ArtInfo##name##MapType *m_map##name##ArtInfos;                                                                       \
+  std::vector<CvArtInfo##name##*> m_pa##name##ArtInfo;
 
-class CvArtFileMgr
-{
+class CvArtFileMgr {
 private:
-	class ArtInfoItem
-	{
-	public:
-		ArtInfoItem() { CvArtFileMgr::GetInstance().addArtInfoItem(this); }
-		virtual void init() = 0;
-		virtual void deInit() = 0;
-		virtual void buildMap() = 0;
-	};
+  class ArtInfoItem {
+  public:
+    ArtInfoItem() {
+      CvArtFileMgr::GetInstance().addArtInfoItem(this);
+    }
+    virtual void init() = 0;
+    virtual void deInit() = 0;
+    virtual void buildMap() = 0;
+  };
+
 public:
-	// singleton accessor
-	DllExport static CvArtFileMgr& GetInstance();
+  // singleton accessor
+  DllExport static CvArtFileMgr &GetInstance();
 
-	DllExport CvArtFileMgr() {};
-	DllExport virtual ~CvArtFileMgr() {};
+  DllExport CvArtFileMgr(){};
+  DllExport virtual ~CvArtFileMgr(){};
 
-	DllExport void Init();
-	DllExport void DeInit();
+  DllExport void Init();
+  DllExport void DeInit();
 
-	// Deletes Maps, Reloads Infos from XML, Rebuilds Maps
-	DllExport void Reset();																														// Exposed to Python
-	
-	// Builds Maps
-	DllExport void buildArtFileInfoMaps();																							// Exposed to Python
+  // Deletes Maps, Reloads Infos from XML, Rebuilds Maps
+  DllExport void Reset(); // Exposed to Python
 
-	// Adds an Art File List
-	void addArtInfoItem(CvArtFileMgr::ArtInfoItem* item) { m_artInfoItems.push_back(item);	}
+  // Builds Maps
+  DllExport void buildArtFileInfoMaps(); // Exposed to Python
+
+  // Adds an Art File List
+  void addArtInfoItem(CvArtFileMgr::ArtInfoItem *item) {
+    m_artInfoItems.push_back(item);
+  }
+
 private:
-	struct ltstr
-	{
-		bool operator()(const char* s1, const char* s2) const
-		{
-			return strcmp(s1, s2) < 0;
-		}
-	};
+  struct ltstr {
+    bool operator()(const char *s1, const char *s2) const {
+      return strcmp(s1, s2) < 0;
+    }
+  };
 
-	ART_INFO_DECL(Asset);
-	ART_INFO_DECL(Misc);
-	ART_INFO_DECL(Unit);
-	ART_INFO_DECL(Building);
-	ART_INFO_DECL(Civilization);
-	ART_INFO_DECL(Leaderhead);
-	ART_INFO_DECL(Bonus);
-	ART_INFO_DECL(Improvement);
-	ART_INFO_DECL(Terrain);
-	ART_INFO_DECL(Feature);
-	ART_INFO_DECL(Movie);
-	ART_INFO_DECL(Interface);
+  ART_INFO_DECL(Asset);
+  ART_INFO_DECL(Misc);
+  ART_INFO_DECL(Unit);
+  ART_INFO_DECL(Building);
+  ART_INFO_DECL(Civilization);
+  ART_INFO_DECL(Leaderhead);
+  ART_INFO_DECL(Bonus);
+  ART_INFO_DECL(Improvement);
+  ART_INFO_DECL(Terrain);
+  ART_INFO_DECL(Feature);
+  ART_INFO_DECL(Movie);
+  ART_INFO_DECL(Interface);
 
-	std::vector<ArtInfoItem*> m_artInfoItems;
+  std::vector<ArtInfoItem *> m_artInfoItems;
 };
 
 // Singleton Accessor

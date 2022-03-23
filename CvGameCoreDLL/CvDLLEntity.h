@@ -22,42 +22,55 @@ class CvCity;
 class CvUnit;
 class CvPlot;
 
-class DllExport CvDLLEntity
-{
+class DllExport CvDLLEntity {
 public:
-	CvDLLEntity();
-	virtual ~CvDLLEntity();
+  CvDLLEntity();
+  virtual ~CvDLLEntity();
 
-	CvEntity* getEntity() { return m_pEntity;	}
-	const CvEntity* getEntity() const { return m_pEntity;	}
-	CvUnitEntity* getUnitEntity() { return (CvUnitEntity*)m_pEntity;	}
-	CvCityEntity* getCityEntity() { return (CvCityEntity*)m_pEntity;	}
-	const CvUnitEntity* getUnitEntity() const { return (CvUnitEntity*)m_pEntity;	}
-	const CvCityEntity* getCityEntity() const { return (CvCityEntity*)m_pEntity;	}
+  CvEntity *getEntity() {
+    return m_pEntity;
+  }
+  const CvEntity *getEntity() const {
+    return m_pEntity;
+  }
+  CvUnitEntity *getUnitEntity() {
+    return (CvUnitEntity *)m_pEntity;
+  }
+  CvCityEntity *getCityEntity() {
+    return (CvCityEntity *)m_pEntity;
+  }
+  const CvUnitEntity *getUnitEntity() const {
+    return (CvUnitEntity *)m_pEntity;
+  }
+  const CvCityEntity *getCityEntity() const {
+    return (CvCityEntity *)m_pEntity;
+  }
 
-	void setEntity(CvEntity* pG) { m_pEntity = pG;	}
+  void setEntity(CvEntity *pG) {
+    m_pEntity = pG;
+  }
 
-	void removeEntity();
-	virtual void setup();
-	void setVisible(bool);
-	void createCityEntity(CvCity*);
-	void createUnitEntity(CvUnit*);
-	void destroyEntity();
+  void removeEntity();
+  virtual void setup();
+  void setVisible(bool);
+  void createCityEntity(CvCity *);
+  void createUnitEntity(CvUnit *);
+  void destroyEntity();
 
-	bool IsSelected() const;
-	void PlayAnimation(AnimationTypes eAnim, float fSpeed = 1.0f, bool bQueue = false, int iLayer = 0, 
-		float fStartPct = 0.0f, float fEndPct = 1.0f);
-	void StopAnimation(AnimationTypes eAnim);
-	void MoveTo( const CvPlot * pkPlot );
-	void QueueMove( const CvPlot * pkPlot );
-	void ExecuteMove( float fTimeToExecute, bool bCombat );
-	void SetPosition( const CvPlot * pkPlot );
-	void NotifyEntity( MissionTypes eMission );
-	void SetSiegeTower(bool show);
-	bool GetSiegeTower();
+  bool IsSelected() const;
+  void PlayAnimation(AnimationTypes eAnim, float fSpeed = 1.0f, bool bQueue = false, int iLayer = 0,
+                     float fStartPct = 0.0f, float fEndPct = 1.0f);
+  void StopAnimation(AnimationTypes eAnim);
+  void MoveTo(const CvPlot *pkPlot);
+  void QueueMove(const CvPlot *pkPlot);
+  void ExecuteMove(float fTimeToExecute, bool bCombat);
+  void SetPosition(const CvPlot *pkPlot);
+  void NotifyEntity(MissionTypes eMission);
+  void SetSiegeTower(bool show);
+  bool GetSiegeTower();
 
 protected:
-	CvEntity* m_pEntity;
+  CvEntity *m_pEntity;
 };
 
-#endif	// CvDLLEntity_h
+#endif // CvDLLEntity_h

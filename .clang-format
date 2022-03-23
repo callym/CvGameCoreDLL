@@ -1,0 +1,7 @@
+---
+BasedOnStyle: Microsoft
+Standard: c++03
+
+BreakBeforeBraces: Attach
+IndentWidth: 2
+SortIncludes: Never

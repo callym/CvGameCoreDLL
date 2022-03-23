@@ -4,7 +4,7 @@
 #define CyGameCoreUtils_h
 
 //
-// Python wrapper functions for DLL 
+// Python wrapper functions for DLL
 //
 
 class CyCity;
@@ -17,16 +17,16 @@ int cyDxWrap(int iDX);
 int cyDyWrap(int iDY);
 int cyPlotDistance(int iX1, int iY1, int iX2, int iY2);
 int cyStepDistance(int iX1, int iY1, int iX2, int iY2);
-CyPlot* cyPlotDirection(int iX, int iY, DirectionTypes eDirection);
-CyPlot* cyPlotCardinalDirection(int iX, int iY, CardinalDirectionTypes eCardDirection);
-CyPlot* cysPlotCardinalDirection(int iX, int iY, CardinalDirectionTypes eCardDirection);
-CyPlot* cyPlotXY(int iX, int iY, int iDX, int iDY);
-CyPlot* cysPlotXY(int iX, int iY, int iDX, int iDY);
+CyPlot *cyPlotDirection(int iX, int iY, DirectionTypes eDirection);
+CyPlot *cyPlotCardinalDirection(int iX, int iY, CardinalDirectionTypes eCardDirection);
+CyPlot *cysPlotCardinalDirection(int iX, int iY, CardinalDirectionTypes eCardDirection);
+CyPlot *cyPlotXY(int iX, int iY, int iDX, int iDY);
+CyPlot *cysPlotXY(int iX, int iY, int iDX, int iDY);
 DirectionTypes cyDirectionXYFromInt(int iDX, int iDY);
-DirectionTypes cyDirectionXYFromPlot(CyPlot* pFromPlot, CyPlot* pToPlot);
-CyPlot* cyPlotCity(int iX, int iY, int iIndex);
+DirectionTypes cyDirectionXYFromPlot(CyPlot *pFromPlot, CyPlot *pToPlot);
+CyPlot *cyPlotCity(int iX, int iY, int iIndex);
 int cyPlotCityXYFromInt(int iDX, int iDY);
-int cyPlotCityXYFromCity(CyCity* pCity, CyPlot* pPlot);
+int cyPlotCityXYFromCity(CyCity *pCity, CyPlot *pPlot);
 CardinalDirectionTypes cyGetOppositeCardinalDirection(CardinalDirectionTypes eDir);
 DirectionTypes cyCardinalDirectionToDirection(CardinalDirectionTypes eCard);
 
@@ -36,8 +36,8 @@ DirectionTypes cyEstimateDirection(int iDX, int iDY);
 bool cyAtWar(int /*TeamTypes*/ eTeamA, int /*TeamTypes*/ eTeamB);
 bool cyIsPotentialEnemy(int /*TeamTypes*/ eOurPlayer, int /*TeamTypes*/ eTheirPlayer);
 
-CyCity* cyGetCity(IDInfo city);
-CyUnit* cyGetUnit(IDInfo unit);
+CyCity *cyGetCity(IDInfo city);
+CyUnit *cyGetUnit(IDInfo unit);
 
 bool cyIsPromotionValid(int /*PromotionTypes*/ ePromotion, int /*UnitTypes*/ eUnit, bool bLeader);
 int cyGetPopulationAsset(int iPopulation);
@@ -67,7 +67,7 @@ bool cyIsLimitedWonderClass(int /*BuildingClassTypes*/ eBuildingClass);
 bool cyIsWorldProject(int /*ProjectTypes*/ eProject);
 bool cyIsTeamProject(int /*ProjectTypes*/ eProject);
 bool cyIsLimitedProject(int /*ProjectTypes*/ eProject);
-int cyGetCombatOdds(CyUnit* pAttacker, CyUnit* pDefender);
+int cyGetCombatOdds(CyUnit *pAttacker, CyUnit *pDefender);
 int cyGetEspionageModifier(int /*TeamTypes*/ iOurTeam, int /*TeamTypes*/ iTargetTeam);
 
-#endif	// CyGameCoreUtils_h
+#endif // CyGameCoreUtils_h

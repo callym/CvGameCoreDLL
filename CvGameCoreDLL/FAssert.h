@@ -8,45 +8,45 @@
 // simply by changing the following lines to define FASSERT_ENABLE or using project settings to override
 #ifdef _DEBUG
 #define FASSERT_ENABLE
-#endif 
+#endif
 
 #ifdef FASSERT_ENABLE
 
 #ifdef WIN32
 
-bool FAssertDlg( const char*, const char*, const char*, unsigned int, bool& );
+bool FAssertDlg(const char *, const char *, const char *, unsigned int, bool &);
 
-#define FAssert( expr )	\
-{ \
-	static bool bIgnoreAlways = false; \
-	if( !bIgnoreAlways && !(expr) ) \
-{ \
-	if( FAssertDlg( #expr, 0, __FILE__, __LINE__, bIgnoreAlways ) ) \
-{ _asm int 3 } \
-} \
-}
+#define FAssert(expr)                                                                                                  \
+  {                                                                                                                    \
+    static bool bIgnoreAlways = false;                                                                                 \
+    if (!bIgnoreAlways && !(expr)) {                                                                                   \
+      if (FAssertDlg(#expr, 0, __FILE__, __LINE__, bIgnoreAlways)) {                                                   \
+        _asm int 3                                                                                                     \
+      }                                                                                                                \
+    }                                                                                                                  \
+  }
 
-#define FAssertMsg( expr, msg ) \
-{ \
-	static bool bIgnoreAlways = false; \
-	if( !bIgnoreAlways && !(expr) ) \
-{ \
-	if( FAssertDlg( #expr, msg, __FILE__, __LINE__, bIgnoreAlways ) ) \
-{ _asm int 3 } \
-} \
-}
+#define FAssertMsg(expr, msg)                                                                                          \
+  {                                                                                                                    \
+    static bool bIgnoreAlways = false;                                                                                 \
+    if (!bIgnoreAlways && !(expr)) {                                                                                   \
+      if (FAssertDlg(#expr, msg, __FILE__, __LINE__, bIgnoreAlways)) {                                                 \
+        _asm int 3                                                                                                     \
+      }                                                                                                                \
+    }                                                                                                                  \
+  }
 
 #else
 // Non Win32 platforms--just use built-in FAssert
-#define FAssert( expr )	FAssert( expr )
-#define FAssertMsg( expr, msg )	FAssert( expr )
+#define FAssert(expr) FAssert(expr)
+#define FAssertMsg(expr, msg) FAssert(expr)
 
 #endif
 
 #else
 // FASSERT_ENABLE not defined
-#define FAssert( expr )
-#define FAssertMsg( expr, msg )
+#define FAssert(expr)
+#define FAssertMsg(expr, msg)
 
 #endif
 

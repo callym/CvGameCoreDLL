@@ -2,7 +2,6 @@
 #[repr(i32)]
 pub enum GameOptionTypes {
   NoGameOption = -1,
-
   AdvancedStart,
   NoCityRazing,
   NoCityFlipping,

@@ -15,3 +15,5 @@ compile/
 dll/bindings.h
 
 ghidra/
+
+/dump.rs

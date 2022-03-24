@@ -12,3 +12,5 @@ eyre = "0.6"
 owo-colors = "3.2"
 ron = "0.7"
 serde = "1.0"
+msvc-demangler = { git = "https://github.com/callym/msvc-demangler-rust" }
+pelite = "0.9.0"

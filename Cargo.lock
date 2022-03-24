@@ -160,6 +160,21 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b365fabc795046672053e29c954733ec3b05e4be654ab130fe8f1f94d7051f35"
 
 [[package]]
+name = "dataview"
+version = "0.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "47a802a2cad0ff4dfc4f3110da174b7a6928c315cae523e88638cfb72941b4d5"
+dependencies = [
+ "derive_pod",
+]
+
+[[package]]
+name = "derive_pod"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2e2d4527fc8a6ad5cdb22622bed719d47f5e47f2e7b53cb821e1c933f62f3eca"
+
+[[package]]
 name = "dll"
 version = "0.1.0"
 dependencies = [
@@ -300,6 +315,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "msvc-demangler"
+version = "0.9.0"
+source = "git+https://github.com/callym/msvc-demangler-rust#3b0c4d6a50ea7131530f1fedea64ac7c1c1c8443"
+dependencies = [
+ "bitflags",
+]
+
+[[package]]
+name = "no-std-compat"
+version = "0.4.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b93853da6d84c2e3c7d730d6473e8817692dd89be387eb01b94d7f108ecb5b8c"
+
+[[package]]
 name = "num_enum"
 version = "0.5.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -349,6 +378,25 @@ name = "owo-colors"
 version = "3.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "20448fd678ec04e6ea15bbe0476874af65e98a01515d667aa49f1434dc44ebf4"
+
+[[package]]
+name = "pelite"
+version = "0.9.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8c270b1a0c279bbcb4cff3d2294121731c48ee68f0435d26cf71018a853cb890"
+dependencies = [
+ "dataview",
+ "libc",
+ "no-std-compat",
+ "pelite-macros",
+ "winapi",
+]
+
+[[package]]
+name = "pelite-macros"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7a7cf3f8ecebb0f4895f4892a8be0a0dc81b498f9d56735cb769dc31bf00815b"
 
 [[package]]
 name = "pin-project-lite"
@@ -630,7 +678,9 @@ dependencies = [
  "color-eyre",
  "duct",
  "eyre",
+ "msvc-demangler",
  "owo-colors",
+ "pelite",
  "ron",
  "serde",
 ]

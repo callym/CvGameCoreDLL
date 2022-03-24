@@ -3,6 +3,8 @@ use std::path::Path;
 mod config;
 use config::Config;
 
+mod dump;
+
 const HELP: &str = "\
 App
 USAGE:
@@ -12,6 +14,7 @@ FLAGS:
 OPTIONS:
   build                 Compiles the DLL
   run                   Compiles and runs Civ4
+  dump [class]          Dumps a starting point for binding the given class
 ";
 
 fn main() -> Result<(), eyre::Report> {
@@ -24,8 +27,9 @@ fn main() -> Result<(), eyre::Report> {
   let config = Config::load()?;
 
   match first {
-    Some("build") => build(&config, args),
-    Some("run") => run(&config, args),
+    Some("build") => build(&config, &mut args),
+    Some("run") => run(&config, &mut args),
+    Some("dump") => dump(&config, &mut args),
     _ => {
       println!("{}", HELP);
       Ok(())
@@ -39,7 +43,7 @@ fn print(verb: &'static str, cmd: &'static str) {
   println!("{} {}", verb.bold().green(), format!("`{}`", cmd).italic());
 }
 
-fn build(_: &Config, mut args: impl Iterator<Item = String>) -> Result<(), eyre::Report> {
+fn build(_: &Config, args: &mut impl Iterator<Item = String>) -> Result<(), eyre::Report> {
   let crate_dir = std::env::var("CARGO_MANIFEST_DIR").unwrap();
 
   let valid_profiles = ["release", "debug"];
@@ -77,7 +81,7 @@ fn build(_: &Config, mut args: impl Iterator<Item = String>) -> Result<(), eyre:
   Ok(())
 }
 
-fn run(config: &Config, args: impl Iterator<Item = String>) -> Result<(), eyre::Report> {
+fn run(config: &Config, args: &mut impl Iterator<Item = String>) -> Result<(), eyre::Report> {
   let crate_dir = std::env::var("CARGO_MANIFEST_DIR").unwrap();
 
   build(config, args)?;
@@ -109,6 +113,54 @@ fn run(config: &Config, args: impl Iterator<Item = String>) -> Result<(), eyre::
     format!(r#""mod=\{}""#, config.mod_name)
   )
   .run()?;
+
+  Ok(())
+}
+
+fn dump(config: &Config, args: &mut impl Iterator<Item = String>) -> Result<(), eyre::Report> {
+  build(config, &mut vec![String::from("debug")].into_iter())?;
+
+  let crate_dir = std::env::var("CARGO_MANIFEST_DIR").unwrap();
+
+  let from = Path::new(&crate_dir)
+    .parent()
+    .unwrap()
+    .join("CvGameCoreDLL")
+    .join("Output")
+    .join("CvGameCoreDLL.dll");
+
+  let file_map = pelite::FileMap::open(&from).unwrap();
+  // Process the image file
+  let classes = dump::dump(file_map.as_ref()).unwrap();
+
+  let class = match args.next() {
+    Some(class) => class,
+    None => return Err(eyre::eyre!("forgot to supply a class!",)),
+  };
+
+  let methods = match classes.get(&class) {
+    Some(methods) => methods,
+    None => return Err(eyre::eyre!("Class doesn't exist: {}", class)),
+  };
+
+  let methods = methods
+    .iter()
+    .map(|v| format!("  {}", v.parsed.clone()))
+    .collect::<Vec<_>>()
+    .join("");
+
+  let dump = format!(
+    r#"
+extern "thiscall" {{
+  pub type {class};
+  {methods}
+}}"#
+  );
+
+  std::fs::write(
+    Path::new(&crate_dir).parent().unwrap().join("dump.rs"),
+    dump,
+  )?;
 
   Ok(())
 }

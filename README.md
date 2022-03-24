@@ -25,7 +25,11 @@ If you want to run Civ4 windowed on a high-res display, you can use [gamescope](
 
 ## Symbols
 
-To get a list of the (mostly mangled) symbols - you can run this:
+There's a simple symbol dumper you can run with `cargo xtask dump [ClassName]` (eg `cargo xtask dump CvGame`) which'll output a `dump.rs` file containing (unsafe) rust bindings to all of the functions associated with a class.
+
+These generated bindings are **only** a starting point, and will need to be fixed-up to be able to work properly - and they don't have any safe wrappers generated with them!
+
+To get a raw list of the (mostly mangled) symbols - you can run this:
 
 `objdump -x 'CvGameCoreDLL/Output/CvGameCoreDLL.dll' > dump.txt`
 
